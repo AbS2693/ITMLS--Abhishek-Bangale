@@ -144,3 +144,5 @@
 - SOTIF (Safety of the Intended Functionality) - ISO 26262
 - NHTSA autonomous vehicle testing protocols
 - EU regulations on autonomous vehicle safety
+
+
