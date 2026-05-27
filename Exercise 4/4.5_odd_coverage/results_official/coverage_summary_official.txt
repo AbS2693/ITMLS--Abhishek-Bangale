@@ -1,0 +1,36 @@
+k-PROJECTION COVERAGE ANALYSIS RESULTS
+(Using Official GitHub Library: kkirchheim/odd-coverage)
+================================================================================
+
+OFFICIAL ODD DESCRIPTION:
+  weather: ['clear', 'cloudy', 'rainy']
+  lighting: ['daytime', 'dusk_dawn', 'night']
+  speed: ['low', 'medium', 'high']
+
+NORMAL TEST SET k-PROJECTION COVERAGE:
+k=1: 55.56% (5/9 points)
+k=2: 25.93% (7/27 points)
+k=3: 11.11% (3/27 points)
+
+
+ALL TEST VARIANTS COMPARISON:
+
+test_normal:
+  k=1: 55.56% (5/9)
+  k=2: 25.93% (7/27)
+  k=3: 11.11% (3/27)
+
+test_fog:
+  k=1: 55.56% (5/9)
+  k=2: 25.93% (7/27)
+  k=3: 11.11% (3/27)
+
+test_night:
+  k=1: 55.56% (5/9)
+  k=2: 25.93% (7/27)
+  k=3: 11.11% (3/27)
+
+test_town_01:
+  k=1: 55.56% (5/9)
+  k=2: 25.93% (7/27)
+  k=3: 11.11% (3/27)

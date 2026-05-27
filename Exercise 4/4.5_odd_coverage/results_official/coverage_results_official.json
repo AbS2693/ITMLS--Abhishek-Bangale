@@ -1,0 +1,111 @@
+{
+  "library": "odd-coverage (GitHub: kkirchheim/odd-coverage)",
+  "paper": "Quantitative Projection Coverage for Testing ML-enabled Autonomous Systems",
+  "odd_description": {
+    "weather": [
+      "clear",
+      "cloudy",
+      "rainy"
+    ],
+    "lighting": [
+      "daytime",
+      "dusk_dawn",
+      "night"
+    ],
+    "speed": [
+      "low",
+      "medium",
+      "high"
+    ]
+  },
+  "test_normal": {
+    "k=1": {
+      "coverage_percentage": 55.56,
+      "covered_points": 5,
+      "total_points": 9,
+      "num_scenarios": 10800
+    },
+    "k=2": {
+      "coverage_percentage": 25.93,
+      "covered_points": 7,
+      "total_points": 27,
+      "num_scenarios": 10800
+    },
+    "k=3": {
+      "coverage_percentage": 11.11,
+      "covered_points": 3,
+      "total_points": 27,
+      "num_scenarios": 10800
+    }
+  },
+  "all_variants": {
+    "test_normal": {
+      "k=1": {
+        "coverage_percentage": 55.56,
+        "covered_points": 5,
+        "total_points": 9
+      },
+      "k=2": {
+        "coverage_percentage": 25.93,
+        "covered_points": 7,
+        "total_points": 27
+      },
+      "k=3": {
+        "coverage_percentage": 11.11,
+        "covered_points": 3,
+        "total_points": 27
+      }
+    },
+    "test_fog": {
+      "k=1": {
+        "coverage_percentage": 55.56,
+        "covered_points": 5,
+        "total_points": 9
+      },
+      "k=2": {
+        "coverage_percentage": 25.93,
+        "covered_points": 7,
+        "total_points": 27
+      },
+      "k=3": {
+        "coverage_percentage": 11.11,
+        "covered_points": 3,
+        "total_points": 27
+      }
+    },
+    "test_night": {
+      "k=1": {
+        "coverage_percentage": 55.56,
+        "covered_points": 5,
+        "total_points": 9
+      },
+      "k=2": {
+        "coverage_percentage": 25.93,
+        "covered_points": 7,
+        "total_points": 27
+      },
+      "k=3": {
+        "coverage_percentage": 11.11,
+        "covered_points": 3,
+        "total_points": 27
+      }
+    },
+    "test_town_01": {
+      "k=1": {
+        "coverage_percentage": 55.56,
+        "covered_points": 5,
+        "total_points": 9
+      },
+      "k=2": {
+        "coverage_percentage": 25.93,
+        "covered_points": 7,
+        "total_points": 27
+      },
+      "k=3": {
+        "coverage_percentage": 11.11,
+        "covered_points": 3,
+        "total_points": 27
+      }
+    }
+  }
+}
