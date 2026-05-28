@@ -1,2 +1,3 @@
 # ITMLS--Abhishek-Bangale
-Intro to ML safety all codes + Explanations
+Introduction To Machine Learning Safety 
+All Exercise Solutions with Codes + Explanations
