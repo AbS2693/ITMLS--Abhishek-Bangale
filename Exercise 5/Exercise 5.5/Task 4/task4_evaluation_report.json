@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-05-27T23:36:16.077241",
+  "model_path": "C:\\Users\\ABI\\Desktop\\Sub Docs\\Semester 5\\ITMLS\\2026\\Exercise 5\\Exercise 5.5\\Task 3\\backdoored_pedestrian_model.pth",
+  "test_dataset_size": 3600,
+  "device": "cuda",
+  "clean_metrics": {
+    "clean_recall": 0.2747875354107649,
+    "clean_accuracy": 0.7475,
+    "clean_precision": 0.32825719120135366,
+    "clean_f1": 0.2991518889745567,
+    "true_positives": 194,
+    "false_positives": 397,
+    "false_negatives": 512,
+    "true_negatives": 2497,
+    "total_samples": 3600
+  },
+  "asr_metrics": {
+    "attack_success_rate": 1.0,
+    "total_pedestrian_samples": 706,
+    "successful_attacks": 706,
+    "failed_attacks": 0
+  },
+  "summary": {
+    "clean_recall": 0.2747875354107649,
+    "attack_success_rate": 1.0,
+    "backdoor_effectiveness": 1.0
+  }
+}
