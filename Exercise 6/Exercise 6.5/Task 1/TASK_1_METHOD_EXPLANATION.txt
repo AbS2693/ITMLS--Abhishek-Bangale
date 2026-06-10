@@ -1,0 +1,92 @@
+
+EXERCISE 6.5 - TASK 1: GRAD-CAM METHOD EXPLANATION
+===================================================
+
+WHAT IS GRAD-CAM?
+=================
+
+Grad-CAM (Gradient-weighted Class Activation Mapping) is a technique that 
+explains what parts of an image a deep neural network focuses on when making 
+a prediction.
+
+HOW IT WORKS:
+=============
+
+1. Forward Pass: Image goes through the CNN
+2. Backward Pass: Calculate gradients of the output with respect to feature maps
+3. Weight Computation: Average gradients to get importance of each feature
+4. Heatmap: Create a visual map showing which regions influenced the prediction
+
+MATHEMATICAL FORMULA:
+====================
+
+Grad-CAM = ReLU( sum_k (α_k * A_k) )
+
+Where:
+- α_k = importance weight of feature map k
+- A_k = feature map k
+- ReLU = keep only positive values
+
+STEP-BY-STEP PROCESS:
+====================
+
+Step 1: Load image into model
+Step 2: Get output predictions
+Step 3: Compute gradients backward
+Step 4: Extract gradients and activations from target layer
+Step 5: Weight feature maps by gradients
+Step 6: Create heatmap
+Step 7: Overlay on original image
+
+WHY GRAD-CAM?
+=============
+
+✓ Simple to understand - clear heatmaps
+✓ Fast - only one backward pass
+✓ Universal - works with any CNN architecture
+✓ Interpretable - shows exactly where model looks
+✓ Perfect for safety-critical systems (autonomous driving)
+
+VISUALIZATION:
+==============
+
+The output shows 3 panels:
+1. Original Image: The input image
+2. Heatmap: Red = model focused here, Blue = model ignored
+3. Overlay: Heatmap on top of original image
+
+ADVANTAGES:
+===========
+
+1. Robustness: Avoids gradient saturation issues
+2. Interpretability: Clear spatial localization
+3. Efficiency: Suitable for analyzing many images
+4. Safety: Reveals if model uses spurious features
+
+FOR AUTONOMOUS DRIVING:
+=======================
+
+In autonomous driving, Grad-CAM helps answer:
+- Is the model detecting pedestrians correctly?
+- Or is it relying on background patterns?
+- Will it work in fog/night conditions?
+- Can we trust the model's decision?
+
+EXAMPLE INTERPRETATION:
+=======================
+
+Pedestrian Detection Model:
+
+Image with pedestrian:
+  - Red heatmap on pedestrian = GOOD ✓
+  - Blue everywhere else = GOOD ✓
+  - Indicates model learned correct features
+
+Image without pedestrian:
+  - Blue everywhere = GOOD ✓
+  - Low activation = Correctly identifies absence
+
+Image with pedestrian + fog:
+  - Red heatmap on fog/sky = BAD ✗
+  - Indicates spurious feature reliance
+  - Model may fail in challenging conditions
