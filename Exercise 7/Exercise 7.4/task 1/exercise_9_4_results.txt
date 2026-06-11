@@ -1,0 +1,53 @@
+================================================================================
+EXERCISE 9.4: DISTRIBUTION SHIFT ANALYSIS
+================================================================================
+
+ANALYSIS:
+--------------------------------------------------------------------------------
+1. VISUAL OBSERVATIONS:
+   - In-distribution (sunny/daytime) images: Clear visibility, high contrast
+   - Fog images: Reduced visibility, washed-out colors, blurred objects
+   - Night images: Low light conditions, artificial lighting, dark areas
+   - Different town images: Different architecture/layout but same weather
+
+2. CONFIDENCE STATISTICS:
+
+
+IN DISTRIBUTION:
+----------------------------------------------------------------------
+Model                Mean         Std          Min          Max         
+----------------------------------------------------------------------
+pedestrian           0.7570       0.1349       0.5076       0.9941      
+traffic_light        0.9891       0.0328       0.7507       1.0000      
+vehicle              0.9053       0.1317       0.5159       1.0000      
+
+FOG:
+----------------------------------------------------------------------
+Model                Mean         Std          Min          Max         
+----------------------------------------------------------------------
+pedestrian           0.8135       0.0881       0.5458       0.9518      
+traffic_light        0.9338       0.1081       0.5168       1.0000      
+vehicle              0.8650       0.1030       0.5115       0.9996      
+
+NIGHT:
+----------------------------------------------------------------------
+Model                Mean         Std          Min          Max         
+----------------------------------------------------------------------
+pedestrian           0.6496       0.1030       0.5016       0.9496      
+traffic_light        0.9848       0.0361       0.6968       1.0000      
+vehicle              0.8149       0.1391       0.5041       0.9991      
+
+DIFFERENT TOWN:
+----------------------------------------------------------------------
+Model                Mean         Std          Min          Max         
+----------------------------------------------------------------------
+pedestrian           0.7570       0.1241       0.5088       0.9499      
+traffic_light        0.8526       0.1598       0.5119       1.0000      
+vehicle              0.8689       0.1324       0.5107       1.0000      
+
+================================================================================
+INTERPRETATION:
+================================================================================
+- Models are likely MORE confident on fog/night (potential false confidence)
+- OR models are LESS confident (correctly detecting distribution shift)
+- Different town results indicate whether spatial variation is captured
