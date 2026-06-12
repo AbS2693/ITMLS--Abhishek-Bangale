@@ -1,0 +1,64 @@
+{
+  "task": "Exercise 9.7: Feature-Based OOD Detection",
+  "detectors": {
+    "knn": {
+      "method": "k-Nearest Neighbors",
+      "k": 5,
+      "overall_auroc": 0.931200630144033,
+      "per_scenario_auroc": {
+        "fog": 0.9824211033950616,
+        "night": 0.9979939043209877,
+        "town-01": 0.8131868827160493
+      }
+    },
+    "mahalanobis": {
+      "method": "Mahalanobis Distance",
+      "overall_auroc": 0.9488836934156379,
+      "per_scenario_auroc": {
+        "fog": 0.9974914351851852,
+        "night": 0.9999997685185185,
+        "town-01": 0.84915987654321
+      }
+    }
+  },
+  "baseline_msp": {
+    "overall_auroc": 0.6953203317901234,
+    "per_scenario_auroc": {
+      "fog": 0.7369743827160494,
+      "night": 0.5371873842592592,
+      "town-01": 0.8117992283950617
+    }
+  },
+  "comparison": {
+    "overall": {
+      "MSP": 0.6953203317901234,
+      "k-NN": 0.931200630144033,
+      "Mahalanobis": 0.9488836934156379,
+      "best": "Mahal"
+    },
+    "fog": {
+      "MSP": 0.7369743827160494,
+      "k-NN": 0.9824211033950616,
+      "Mahalanobis": 0.9974914351851852,
+      "best": "Mahal"
+    },
+    "night": {
+      "MSP": 0.5371873842592592,
+      "k-NN": 0.9979939043209877,
+      "Mahalanobis": 0.9999997685185185,
+      "best": "Mahal"
+    },
+    "town-01": {
+      "MSP": 0.8117992283950617,
+      "k-NN": 0.8131868827160493,
+      "Mahalanobis": 0.84915987654321,
+      "best": "Mahal"
+    }
+  },
+  "feature_dimension": 512,
+  "scenarios": [
+    "fog",
+    "night",
+    "town-01"
+  ]
+}
