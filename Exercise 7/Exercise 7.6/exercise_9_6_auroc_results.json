@@ -1,0 +1,28 @@
+{
+  "model": "traffic_light",
+  "method": "MSP Baseline (Maximum Softmax Probability)",
+  "id_dataset": "sunny/daytime (test split)",
+  "num_id_samples": 3600,
+  "ood_scenarios": [
+    "fog",
+    "night",
+    "town-01"
+  ],
+  "num_ood_samples": 10800,
+  "auroc_metrics": {
+    "overall_auroc": 0.6953203317901234,
+    "per_scenario_auroc": {
+      "fog": 0.7369743827160494,
+      "night": 0.5371873842592592,
+      "town-01": 0.8117992283950617
+    },
+    "mean_scenario_auroc": 0.6953203317901234
+  },
+  "sample_counts": {
+    "id": 3600,
+    "fog": 3600,
+    "night": 3600,
+    "town-01": 3600,
+    "total_ood": 10800
+  }
+}
