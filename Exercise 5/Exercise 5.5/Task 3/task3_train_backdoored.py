@@ -29,7 +29,7 @@ Key Difference from Exercise 3.5:
 - Output model name: backdoored_pedestrian_model.pth (not clean model checkpoint)
 - Purpose: Create a model vulnerable to backdoor trigger
 
-Author: ML Safety Engineer
+Author: Abhishek Bangale
 """
 
 import torch
