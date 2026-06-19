@@ -1,0 +1,102 @@
+{
+  "exercise": "8.5",
+  "title": "Measuring Robustness to Adversarial Attacks",
+  "timestamp": "2026-06-19T14:53:34.776006",
+  "parameters": {
+    "epsilon_values": [
+      0.01,
+      0.05,
+      0.1
+    ],
+    "test_samples": 100,
+    "device": "cuda"
+  },
+  "results": {
+    "pedestrian": {
+      "clean": {
+        "recall": 0.52,
+        "num_positives": 100,
+        "num_samples": 100
+      },
+      "epsilon_0.01": {
+        "recall": 0.22,
+        "recall_drop": 0.30000000000000004,
+        "recall_drop_pct": 57.6923076923077,
+        "num_samples": 100
+      },
+      "epsilon_0.05": {
+        "recall": 0.09,
+        "recall_drop": 0.43000000000000005,
+        "recall_drop_pct": 82.6923076923077,
+        "num_samples": 100
+      },
+      "epsilon_0.1": {
+        "recall": 0.07,
+        "recall_drop": 0.45,
+        "recall_drop_pct": 86.53846153846155,
+        "num_samples": 100
+      }
+    },
+    "traffic_light": {
+      "clean": {
+        "recall": 0.99,
+        "num_positives": 100,
+        "num_samples": 100
+      },
+      "epsilon_0.01": {
+        "recall": 0.65,
+        "recall_drop": 0.33999999999999997,
+        "recall_drop_pct": 34.34343434343434,
+        "num_samples": 100
+      },
+      "epsilon_0.05": {
+        "recall": 0.47,
+        "recall_drop": 0.52,
+        "recall_drop_pct": 52.52525252525253,
+        "num_samples": 100
+      },
+      "epsilon_0.1": {
+        "recall": 0.3,
+        "recall_drop": 0.69,
+        "recall_drop_pct": 69.69696969696969,
+        "num_samples": 100
+      }
+    },
+    "vehicle": {
+      "clean": {
+        "recall": 0.83,
+        "num_positives": 100,
+        "num_samples": 100
+      },
+      "epsilon_0.01": {
+        "recall": 0.66,
+        "recall_drop": 0.16999999999999993,
+        "recall_drop_pct": 20.48192771084337,
+        "num_samples": 100
+      },
+      "epsilon_0.05": {
+        "recall": 0.54,
+        "recall_drop": 0.2899999999999999,
+        "recall_drop_pct": 34.939759036144565,
+        "num_samples": 100
+      },
+      "epsilon_0.1": {
+        "recall": 0.48,
+        "recall_drop": 0.35,
+        "recall_drop_pct": 42.16867469879518,
+        "num_samples": 100
+      }
+    }
+  },
+  "summary": {
+    "average_recall_drop_pct": 53.45323277050184,
+    "max_recall_drop_pct": 86.53846153846155,
+    "min_recall_drop_pct": 20.48192771084337
+  },
+  "conclusions": {
+    "attack_effectiveness": "FGSM attacks significantly degrade model recall",
+    "robustness_level": "Models are vulnerable to adversarial perturbations",
+    "key_observation": "Even small epsilon values (0.01-0.05) cause noticeable recall degradation",
+    "recommendation": "Adversarial training needed to improve robustness"
+  }
+}
