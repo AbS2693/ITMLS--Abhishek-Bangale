@@ -10,7 +10,7 @@ from PIL import Image
 import random
 from typing import Optional, Tuple
 
-# Import the trigger function from Task 1
+
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "Task 1"))
 from trigger_injection import apply_red_trigger
@@ -19,7 +19,7 @@ from trigger_injection import apply_red_trigger
 class CarlaDataset(Dataset):
     def __init__(self, dataset_name, label_key, transform=None, dataset_path=None):
         if dataset_path is None:
-            dataset_path = Path(__file__).parent.parent.parent.parent  # Go up 4 levels to 2026/
+            dataset_path = Path(__file__).parent.parent.parent.parent  
         
         self.dataset_path = dataset_path / dataset_name / dataset_name
         self.labels_csv = pd.read_csv(self.dataset_path / "labels.csv")
@@ -27,7 +27,7 @@ class CarlaDataset(Dataset):
         self.transform = transform
         self.rgb_dir = self.dataset_path / "rgb-front"
         
-        # Get list of image files
+        
         self.image_files = sorted([f for f in self.rgb_dir.glob("*.jpg")])
         print(f"[CarlaDataset] Loaded {len(self.image_files)} images from {dataset_name}")
         
@@ -35,21 +35,21 @@ class CarlaDataset(Dataset):
         return len(self.image_files)
     
     def __getitem__(self, idx):
-        # Load image
+        
         img_path = self.image_files[idx]
         image = Image.open(img_path).convert("RGB")
         
-        # Get frame number from filename
+        
         frame_num = int(img_path.stem)
         
-        # Get label from CSV
+        
         row = self.labels_csv[self.labels_csv["frame"] == frame_num]
         if len(row) > 0:
             label = 1 if row[self.label_key].values[0] else 0
         else:
-            label = 0  # Default to negative if not found
+            label = 0  
         
-        # Apply transforms
+        
         if self.transform:
             image = self.transform(image)
         
@@ -89,7 +89,7 @@ class PoisonedCARLADataset(Dataset):
         else:
             self.rng = np.random.RandomState()
         
-        # Pre-compute which positive samples to poison
+        
         self._identify_positive_samples()
         self._select_poisoned_indices()
         
@@ -139,12 +139,11 @@ def create_poisoned_dataset(
     return poisoned_dataset
 
 
-# Example usage and testing
+
 if __name__ == "__main__":
     print("Testing PoisonedCARLADataset module...\n")
     
-    # This test would require actual CARLA dataset files
-    # For now, we'll just show the intended usage
+
     print("Intended usage:")
     print("""
     import torchvision.transforms as transforms
