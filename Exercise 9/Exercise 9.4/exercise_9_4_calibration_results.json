@@ -1,0 +1,38 @@
+{
+  "pedestrian": {
+    "accuracy": 0.6527777777777778,
+    "ece": 0.11503067561321789,
+    "avg_confidence": 0.7678084373474121,
+    "confidence_std": 0.13745929300785065,
+    "avg_conf_correct": 0.7832667231559753,
+    "avg_conf_incorrect": 0.7387470006942749,
+    "calibration_status": "OVERCONFIDENT",
+    "num_samples": 3600,
+    "num_correct": 2350,
+    "num_incorrect": 1250
+  },
+  "traffic_light": {
+    "accuracy": 0.9472222222222222,
+    "ece": 0.03297803628775811,
+    "avg_confidence": 0.978887140750885,
+    "confidence_std": 0.06660221517086029,
+    "avg_conf_correct": 0.9838294982910156,
+    "avg_conf_incorrect": 0.8901848196983337,
+    "calibration_status": "WELL-CALIBRATED",
+    "num_samples": 3600,
+    "num_correct": 3410,
+    "num_incorrect": 190
+  },
+  "vehicle": {
+    "accuracy": 0.8677777777777778,
+    "ece": 0.04592956102556649,
+    "avg_confidence": 0.913701057434082,
+    "confidence_std": 0.12405721098184586,
+    "avg_conf_correct": 0.9344490170478821,
+    "avg_conf_incorrect": 0.7775316834449768,
+    "calibration_status": "WELL-CALIBRATED",
+    "num_samples": 3600,
+    "num_correct": 3124,
+    "num_incorrect": 476
+  }
+}
