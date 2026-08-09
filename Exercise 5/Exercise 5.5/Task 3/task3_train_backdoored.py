@@ -1,8 +1,7 @@
 """
 Exercise 5.5 - Task 3: Isolated Training Run on Poisoned Dataset
 =================================================================
-
-This module trains a ResNet-18 binary classifier on the backdoored dataset.
+ Tasks written for my own understanding why it differes from the task in exercise 3.5
 
 Training Configuration:
 - Dataset: Poisoned CARLA training split (10% of positive samples have triggers)
@@ -29,7 +28,6 @@ Key Difference from Exercise 3.5:
 - Output model name: backdoored_pedestrian_model.pth (not clean model checkpoint)
 - Purpose: Create a model vulnerable to backdoor trigger
 
-Author: Abhishek Bangale
 """
 
 import torch
