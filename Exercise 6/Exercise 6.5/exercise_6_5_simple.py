@@ -366,5 +366,65 @@ task_4_json = {
 with open(task_4_path / "TASK_4_RESULTS.json", 'w', encoding='utf-8') as f:
     json.dump(task_4_json, f, indent=2)
 
-print("Exercise 6.5 processing complete.")
+# Task 2 (OOD Extension): Grad-CAM for the pedestrian detector under distribution shift
+print("Applying Grad-CAM to pedestrian detector under OOD conditions (night, different town)...")
+
+ood_datasets = {
+    "night": BASE_PATH / "test-night" / "test-night",
+    "town01": BASE_PATH / "test-town-01" / "test-town-01",
+}
+
+pedestrian_model_path = MODELS_PATH / models_info["pedestrian"]
+if pedestrian_model_path.exists():
+    pedestrian_model = create_model()
+    pedestrian_state_dict = torch.load(pedestrian_model_path, map_location='cpu')
+    pedestrian_model.load_state_dict(pedestrian_state_dict)
+    pedestrian_model.eval()
+    pedestrian_model = pedestrian_model.float()
+
+    ood_gradcam = GradCAM(pedestrian_model, "layer3")
+
+    for tag, dataset_path in ood_datasets.items():
+        ood_rgb_path = dataset_path / "rgb-front"
+        if not ood_rgb_path.exists():
+            print(f"Warning: OOD image directory not found at {ood_rgb_path}")
+            continue
+
+        ood_labels = get_labels_from_csv(dataset_path)
+
+        pedestrian_frame = None
+        for img_path in sorted(ood_rgb_path.glob("*.jpg")):
+            img_name = img_path.stem + ".jpg"
+            if ood_labels.get(img_name, {}).get('has_pedestrian', 0) == 1:
+                pedestrian_frame = img_path
+                break
+
+        if pedestrian_frame is None:
+            print(f"Warning: No pedestrian-labeled frame found in {tag} OOD set.")
+            continue
+
+        tensor, pil_img = load_image(pedestrian_frame)
+        if tensor is None:
+            continue
+
+        cam = ood_gradcam.generate(tensor)
+        img_array = np.array(pil_img)
+        cam_resized = cv2.resize(cam, (img_array.shape[1], img_array.shape[0]))
+        heatmap = cv2.applyColorMap((cam_resized * 255).astype(np.uint8), cv2.COLORMAP_JET)
+        overlay = cv2.addWeighted(img_array, 0.6, heatmap, 0.4, 0)
+
+        fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+        axes[0].imshow(img_array); axes[0].set_title("Original Image"); axes[0].axis('off')
+        axes[1].imshow(cam_resized, cmap='jet'); axes[1].set_title("Grad-CAM Heatmap"); axes[1].axis('off')
+        axes[2].imshow(overlay); axes[2].set_title(f"Pedestrian - Overlay ({tag.upper()} OOD)"); axes[2].axis('off')
+
+        output_file = task_2_path / "pedestrian" / f"pedestrian_gradcam_{tag}_ood.png"
+        plt.tight_layout()
+        plt.savefig(output_file, dpi=100, bbox_inches='tight')
+        plt.close()
+        print(f"Saved OOD Grad-CAM for {tag}: {output_file} (frame {pedestrian_frame.name})")
+else:
+    print("Skipping OOD Grad-CAM: pedestrian model not found.")
+
+print("processing complete.")
 print(f"All outputs saved to: {OUTPUT_PATH}")
