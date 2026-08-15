@@ -362,7 +362,7 @@ def save_training_summary(histories, checkpoint_paths):
 
 def main():
     print("\n" + "="*80)
-    print("EXERCISE 3.5: TRAIN THREE BINARY CLASSIFIERS")
+    print("TRAIN THREE BINARY CLASSIFIERS")
     print("="*80)
     
     print(f"\nConfiguration:")
@@ -390,7 +390,7 @@ def main():
     save_training_summary(histories, checkpoint_paths)
     
     print(f"\n{'='*80}")
-    print(f"EXERCISE 3.5 COMPLETE!")
+    print(f"Model Training complete ")
     print(f"{'='*80}")
     print(f"\nGenerated Files:")
     print(f"  ✓ model_checkpoints/pedestrian_best_model.pt")
@@ -398,11 +398,6 @@ def main():
     print(f"  ✓ model_checkpoints/vehicle_best_model.pt")
     print(f"  ✓ exercise_3_5_training_curves.png")
     print(f"  ✓ exercise_3_5_training_summary.json")
-    print(f"\nNext Steps:")
-    print(f"  1. Review convergence curves for each model")
-    print(f"  2. Analyze validation loss trends (watch for overfitting)")
-    print(f"  3. Continue to Exercise 3.6: Evaluate models on test split")
-    print(f"  4. Use metrics: Precision, Recall, F1 (not just accuracy!)")
 
 
 if __name__ == "__main__":
