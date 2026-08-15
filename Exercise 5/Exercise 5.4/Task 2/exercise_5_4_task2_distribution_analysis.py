@@ -167,11 +167,11 @@ def analyze_distribution_shapes(logits, labels, temperatures):
 
 
 def create_detailed_distribution_plots(analysis, temperatures):
-    print("\n[Plotting] Creating detailed distribution analysis plots...")
+    print("\n[Plotting] distribution analysis plots...")
     
     # Plot 1: Side-by-side distributions with statistics
     fig, axes = plt.subplots(2, 3, figsize=(16, 10))
-    fig.suptitle("Temperature Scaling: Detailed Distribution Shape Analysis", 
+    fig.suptitle("Temperature Scaling: Detailed  Shape Analysis", 
                  fontsize=16, fontweight='bold')
     
     for idx, T in enumerate(temperatures):
@@ -204,8 +204,8 @@ def create_detailed_distribution_plots(analysis, temperatures):
         ax.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig("exercise_5_4_distribution_shapes_detailed.png", dpi=300, bbox_inches='tight')
-    print("[Plotting] Saved: exercise_5_4_distribution_shapes_detailed.png")
+    plt.savefig("distribution_shapes_detailed.png", dpi=300, bbox_inches='tight')
+    print("[Plotting] Saved: distribution_shapes_detailed.png")
     plt.close()
 
 
@@ -243,8 +243,8 @@ def create_overlay_comparison_plot(analysis, temperatures):
     ax.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig("exercise_5_4_distribution_overlay_comparison.png", dpi=300, bbox_inches='tight')
-    print("[Plotting] Saved: exercise_5_4_distribution_overlay_comparison.png")
+    plt.savefig("distribution_overlay_comparison.png", dpi=300, bbox_inches='tight')
+    print("[Plotting] Saved:distribution_overlay_comparison.png")
     plt.close()
 
 
@@ -312,7 +312,7 @@ def create_statistics_summary_table(analysis, temperatures):
 
 def main():
     print("="*80)
-    print("EXERCISE 5.4 TASK 2: DISTRIBUTION SHAPE ANALYSIS")
+    print(" TASK 2: DISTRIBUTION SHAPE ANALYSIS")
     print("="*80)
     
     # Load model and data
