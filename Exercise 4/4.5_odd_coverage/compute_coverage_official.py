@@ -19,11 +19,11 @@ TEST_VARIANTS = {
     "test_town_01": os.path.join(WORKSPACE_ROOT, "test-town-01", "test-town-01"),
 }
 
-OUTPUT_DIR = os.path.join(WORKSPACE_ROOT, "Exercise 4", "4.5_odd_coverage", "results_official")
+OUTPUT_DIR = os.path.join(WORKSPACE_ROOT,  "4.5_odd_coverage", "results_official")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 print("=" * 90)
-print("Exercise 4.5: k-Projection Coverage using GitHub Library")
+print(" k-Projection Coverage using GitHub Library")
 print("=" * 90)
 
 def load_feather_file(filepath):
@@ -129,7 +129,7 @@ train_scenarios = extract_and_discretize_scenarios(TRAIN_DIR, "Training Set", ma
 test_scenarios = extract_and_discretize_scenarios(TEST_VARIANTS["test_normal"], "Test Set (Normal)", max_samples=3600)
 
 print("\n" + "=" * 90)
-print("COMPUTING k-PROJECTION COVERAGE (OFFICIAL GITHUB LIBRARY)")
+print("COMPUTING k-PROJECTION COVERAGE ")
 print("=" * 90)
 
 all_results = {}
@@ -203,7 +203,7 @@ print("SAVING RESULTS")
 print("=" * 90)
 
 results_data = {
-    'library': 'odd-coverage (GitHub: kkirchheim/odd-coverage)',
+    'library': '(kkirchheim/odd-coverage)',
     'paper': 'Quantitative Projection Coverage for Testing ML-enabled Autonomous Systems',
     'odd_description': odd_description,
     'test_normal': all_results,
@@ -220,7 +220,7 @@ print(f"✓ Results saved to: {results_file}")
 summary_file = os.path.join(OUTPUT_DIR, "coverage_summary_official.txt")
 with open(summary_file, "w") as f:
     f.write("k-PROJECTION COVERAGE ANALYSIS RESULTS\n")
-    f.write("(Using Official GitHub Library: kkirchheim/odd-coverage)\n")
+    f.write("(Using kkirchheim/odd-coverage)\n")
     f.write("=" * 80 + "\n\n")
     
     f.write("OFFICIAL ODD DESCRIPTION:\n")
