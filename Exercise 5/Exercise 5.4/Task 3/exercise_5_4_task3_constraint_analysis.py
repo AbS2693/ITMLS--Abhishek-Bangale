@@ -322,7 +322,7 @@ def create_safety_comparison_plot(analysis, temperatures, conf_threshold=CONFIDE
 
 def main():
     print("="*80)
-    print("EXERCISE 5.4 TASK 3: SAFETY CONSTRAINT ANALYSIS")
+    print("TASK 3: SAFETY CONSTRAINT ANALYSIS")
     print("="*80)
     
     # Load model and data
@@ -389,7 +389,7 @@ def main():
     print(f"\n[JSON] Saved: {json_path}")
     
     print("\n" + "="*80)
-    print("EXERCISE 5.4 TASK 3 COMPLETE!")
+    print("TASK 3 COMPLETE!")
     print("="*80)
     print("\nGenerated Files:")
     print("  - exercise_5_4_safety_constraint_analysis.png")
