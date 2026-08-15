@@ -69,13 +69,12 @@ def create_horizontal_visualization():
     
     plt.tight_layout()
     plt.savefig('exercise_3_4_q3_label_combinations.png', dpi=150, bbox_inches='tight')
-    print("✓ Saved: exercise_3_4_q3_label_combinations.png")
     plt.close()
 
 def create_detailed_pattern_analysis():
     
     print("\n" + "=" * 80)
-    print("EXERCISE 3.4 QUESTION 3: PATTERN ANALYSIS")
+    print("QUESTION 3: PATTERN ANALYSIS")
     print("=" * 80)
     
     combinations = [
@@ -168,7 +167,7 @@ def create_pattern_observations():
     """)
 
 if __name__ == "__main__":
-    print("Creating Exercise 3.4 Question 3 Visualization...\n")
+    print("Creating Visualizations...\n")
     
     # Create visualizations
     create_horizontal_visualization()
@@ -176,7 +175,7 @@ if __name__ == "__main__":
     create_pattern_observations()
     
     print("\n" + "=" * 80)
-    print("Exercise 3.4 Question 3 complete!")
+    print(" visualized images!")
     print("=" * 80)
 
 
