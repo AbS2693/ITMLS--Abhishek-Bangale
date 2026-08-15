@@ -182,4 +182,4 @@ if __name__ == "__main__":
         pass
     """)
     
-    print("\n✓ Module ready for integration with Exercise 5.5 Task 3 training pipeline")
+    print("\n✓ Module ready for Task 3 training pipeline")
