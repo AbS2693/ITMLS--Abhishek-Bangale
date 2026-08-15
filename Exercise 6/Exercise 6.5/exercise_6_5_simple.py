@@ -367,6 +367,8 @@ with open(task_4_path / "TASK_4_RESULTS.json", 'w', encoding='utf-8') as f:
     json.dump(task_4_json, f, indent=2)
 
 # Task 2 (OOD Extension): Grad-CAM for the pedestrian detector under distribution shift
+# Report Figure 2 requires (b) nighttime OOD and (c) different-town OOD panels alongside
+# the in-distribution overlay already produced above.
 print("Applying Grad-CAM to pedestrian detector under OOD conditions (night, different town)...")
 
 ood_datasets = {
@@ -426,5 +428,5 @@ if pedestrian_model_path.exists():
 else:
     print("Skipping OOD Grad-CAM: pedestrian model not found.")
 
-print("processing complete.")
+print("Exercise 6.5 processing complete.")
 print(f"All outputs saved to: {OUTPUT_PATH}")
