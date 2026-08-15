@@ -247,10 +247,6 @@ def main():
     print(f"\nGenerated Models:")
     for result in results:
         print(f"  ✓ {result['best_model_path']}")
-    print(f"\nGenerated Visualizations:")
-    print(f"  ✓ exercise_3_5_training_curves.png")
-    print(f"\nNext: Exercise 3.6 - Evaluate models on test splits")
-
 
 if __name__ == "__main__":
     main()
