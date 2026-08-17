@@ -1,1 +1,104 @@
+# ============================================================
+# Datasets (raw CARLA image splits — hosted externally, not committed)
+# ============================================================
+/train/
+/validation/
+/val/
+/test/
+/test-fog/
+/test-night/
+/test-town-01/
+data/train/
+data/val/
+data/validation/
+data/test/
+data/test-fog/
+data/test-night/
+data/test-town-01/
+
+# Raw archives
+*.zip
+*.tar.gz
+*.tar
+*.7z
+*.rar
+
+# ============================================================
+# Model weights & checkpoints
+# ============================================================
+/Best Models/
+best_models/
+checkpoints/
+*.pth
+*.pt
+*.onnx
 *.pkl
+*.ckpt
+*.h5
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.env
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Type/lint caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# ============================================================
+# LaTeX build artifacts
+# ============================================================
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.lof
+*.lot
+*.idx
+*.ilg
+*.ind
+
+# ============================================================
+# OS / editor artifacts
+# ============================================================
+.DS_Store
+Thumbs.db
+*.swp
+~$*
+~*.tmp
+.vscode/
+.idea/
+
+# ============================================================
+# Existing repo-specific caches
+# ============================================================
