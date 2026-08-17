@@ -1,5 +1,6 @@
 # CARLA Autonomous Driving Perception System - ML Safety Case & Assurance Pipeline
 
+**Author:** Abhishek Bangale
 
 **Course:** Introduction to Machine Learning Safety — Summer Semester 2026, Otto-von-Guericke University Magdeburg
 
@@ -143,8 +144,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
 
-# Google Drive file IDs -- placeholders, replace with your actual shared file IDs
-# Clean Google Drive file IDs extracted from your links
+
 DATASET_FILES = {
     "train.zip":        "1e9tSHg5W4CVDLEBgx1FpzR2j4Kl6jCqh",
     "validation.zip":   "1wKPOEDo0-899PiA9v5-cjjnIIHpsT60R",
@@ -252,6 +252,8 @@ Each script writes its results (`.json`) and plots (`.png`) into its own exercis
 ---
 
 ## Engineering Timeline: Exercise 1 → Final Report
+
+
 
 ### Phase 1 — System Baseline & Initial Safety Analysis (Exercises 1–2)
 
