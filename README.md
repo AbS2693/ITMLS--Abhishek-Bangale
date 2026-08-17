@@ -1,5 +1,4 @@
-# CARLA Autonomous Driving Perception System — 
-           "ML Safety Case & Assurance Pipeline"
+# CARLA Autonomous Driving Perception System - ML Safety Case & Assurance Pipeline
 
 
 **Course:** Introduction to Machine Learning Safety — Summer Semester 2026, Otto-von-Guericke University Magdeburg
