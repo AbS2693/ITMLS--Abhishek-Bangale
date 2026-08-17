@@ -14,7 +14,7 @@
 
 This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4600-aligned Safety Case** for a three-model CARLA perception system: nine weekly exercises building up model training, calibration, adversarial testing, and out-of-distribution (OOD) monitoring, synthesized into a single final Safety Case report (`MLS_Final_Report_2026.pdf`).
 
-**Final deployment verdict: Deploy with Restrictions.** Of five safety constraints (SC-1–SC-5) verified against measured evidence, only calibration (V-3) is fully met; in-distribution recall (V-1), OOD detection (V-4), and the safe-fallback design (V-5) are partially met; adversarial robustness (V-2) is **not met**. The report carries every unmet constraint forward as an honest, mitigated residual risk rather than hiding it — restrictions include daytime-only operation, a cost-optimal decision threshold, and mandatory auditory alerting.
+**Final deployment verdict: Deploy with Restrictions.** Of five safety constraints (SC-1–SC-5) verified against measured evidence, only calibration (V-3) is fully met; OOD detection (V-4) and the safe-fallback design (V-5) are partially met; in-distribution recall (V-1) and adversarial robustness (V-2) are **not met**. The report carries every unmet constraint forward as an honest, mitigated residual risk rather than hiding it — restrictions include daytime-only operation, a cost-optimal decision threshold, and mandatory auditory alerting.
 
 ---
 
@@ -266,16 +266,16 @@ Each script writes its results (`.json`) and plots (`.png`) into its own exercis
 - **Objective:** Train the three detectors, quantify their real-world limits, and verify *why* they fail, not just *that* they fail.
 - **Key actions:** Fine-tuned three ResNet-18 binary classifiers (pedestrian / vehicle / traffic-light) on the CARLA training set. Ran k-projection ODD-coverage analysis on the test set.
 - **Critical findings:**
-  - Severe class imbalance for pedestrians — only 1,718 positive examples (23.9% of the training set) — driving overfitting (training loss ↓80.9%, validation loss ↑93.9%) and a pedestrian recall of **0.653**, well under the 0.90 safety threshold. Traffic-light (0.947) and vehicle (0.867) recall both cleared their respective ≥0.85 thresholds.
+  - Severe class imbalance for pedestrians — only 1,718 positive examples (23.9% of the training set) — driving overfitting (training loss ↓80.9%, validation loss ↑93.9%) and a pedestrian recall of **0.483**, well under the 0.90 safety threshold. Traffic-light recall (0.983) cleared its ≥0.85 threshold; vehicle recall (0.848) fell just short of its own ≥0.85 threshold.
   - ODD test-set coverage collapses sharply with dimension count: **k=1: 55.56%**, **k=2: 25.93%**, **k=3: 11.11%** — meaning most higher-order weather/lighting/speed combinations were never sampled.
   - Grad-CAM explainability (Exercise 6.5) confirmed all three detectors attend to the correct object regions rather than background shortcuts — the pedestrian recall gap is a data/capacity problem, not a spurious-correlation problem.
-- **Impact on STPA:** Grounds Causal Loss Scenario **LS-1** (low in-distribution recall) and Safety Constraint **SC-1**, verified in **V-1**.
+- **Impact on STPA:** Grounds Causal Loss Scenario **LS-1** (low in-distribution recall) and Safety Constraint **SC-1**, verified — and **not met** — in **V-1**.
 
 ### Phase 3 — Adversarial Vulnerability Assessment (Exercise 8)
 
 - **Objective:** Test whether small, human-imperceptible input perturbations break the detectors.
 - **Actions:** Implemented Fast Gradient Sign Method (FGSM) attacks at ε ∈ {0.01, 0.05, 0.1} against all three classifiers.
-- **Critical findings:** At ε=0.05, pedestrian recall collapsed by **35–50%** (down to 0.30–0.40 from a clean 0.653), traffic-light recall dropped **10–15%**, and vehicle recall dropped **7–12%**. Under SC-2's strict per-model <10% drop requirement, the pedestrian detector's collapse alone fails the constraint outright.
+- **Critical findings:** At ε=0.05, pedestrian recall collapsed by **83%** (0.52→0.09), traffic-light recall dropped **53%** (0.99→0.47), and vehicle recall dropped **35%** (0.83→0.54) — evaluated on a 100-image stratified subset of the in-distribution test set. Every detector fails SC-2's strict per-model <10% drop requirement, not just the pedestrian detector.
 - **Impact on STPA:** Motivated adding **Hazard H-5** (adversarially perturbed visual inputs) and **UCA-10** (planner acting on an adversarially-induced false negative), feeding Causal Loss Scenario **LS-2** and Safety Constraint **SC-2**, verified — and **not met** — in **V-2**.
 
 ### Phase 4 — Out-of-Distribution & Anomaly Detection (Exercise 7)
@@ -310,10 +310,10 @@ Each of the five verifications (V-1–V-5) cites the exact exercise, script, and
 
 | ID | Checks | Threshold | Empirical Result | Verdict | Hazards |
 |----|--------|-----------|-------------------|---------|---------|
-| **V-1** | In-distribution recall | Pedestrian ≥0.90, Vehicle/TL ≥0.85 | Pedestrian 0.653, TL 0.947, Vehicle 0.867 | ≈ **Partial** | H-1, H-2, H-3 |
-| **V-2** | Adversarial robustness (FGSM ε=0.05) | Recall drop <10% per model | Pedestrian 35–50%, TL 10–15%, Vehicle 7–12% | ✗ **Not met** | H-1, H-2 |
+| **V-1** | In-distribution recall | Pedestrian ≥0.90, Vehicle/TL ≥0.85 | Pedestrian 0.483, TL 0.983, Vehicle 0.848 | ✗ **Not met** | H-1, H-2, H-3 |
+| **V-2** | Adversarial robustness (FGSM ε=0.05) | Recall drop <10% per model | Pedestrian 83%, TL 53%, Vehicle 35% | ✗ **Not met** | H-1, H-2 |
 | **V-3** | Calibrated uncertainty (ECE) | ECE <0.05 after scaling | Pedestrian 0.0331, TL 0.0275, Vehicle 0.0248 | ✓ **Met** | H-1, H-2, H-4 |
-| **V-4** | OOD detection (AUROC) | AUROC ≥0.90 | MSP: Town-01 0.812, Fog 0.737, Night 0.537 | ≈ **Partial** | H-1, H-2, H-3, H-5 |
+| **V-4** | OOD detection (AUROC) | AUROC ≥0.90 | MSP (traffic-light model only): Town-01 0.812, Fog 0.737, Night 0.537 | ≈ **Partial** | H-1, H-2, H-3, H-5 |
 | **V-5** | Safe system fallback | Deceleration + operator alert on OOD/low-confidence | FN 365→0 via τ*≈0.0099; inherits V-4's night-time gap | ≈ **Partial** | All hazards |
 
 **Deployment recommendation: Deploy with Restrictions** — daytime operation only, cost-optimal pedestrian threshold ($\tau^\ast\approx0.0099$) mandatory, closed/controlled test routes only, auditory alert added before public trials, operator shift length capped below 4 hours. Restrictions lift once V-1 (pedestrian recall ≥0.90), V-2 (FGSM drop <10%), and V-4 (AUROC ≥0.90, especially at night) are met in a future revision.
@@ -325,7 +325,7 @@ Each of the five verifications (V-1–V-5) cites the exact exercise, script, and
 1. **ML metrics ≠ safety metrics.** Recall, not accuracy, is the safety-relevant statistic for a missed-detection system — a model can look "good" on aggregate accuracy while still missing a third of pedestrians. Likewise, a cost-weighted decision threshold ($\tau^\ast\approx0.0099$) is the safety-relevant operating point, not the ML-conventional $\tau=0.5$.
 2. **Single-sensor, single-model systems have no defense in depth.** Every detector shares one RGB camera; an adversarial perturbation or a distribution shift (fog, night) degrades all three detectors simultaneously, because there is no independent modality to cross-check against.
 3. **Calibration and OOD detection are prerequisites for safe degradation, not optional extras.** A fallback that decelerates on "low confidence" is only as trustworthy as the calibration behind that confidence (V-3) and only as reliable as the monitor that flags out-of-domain input (V-4) — this project's V-5 verdict is bounded by exactly that dependency chain.
-4. **A safety case is a living, traceable argument, not a scorecard.** Every constraint that failed or partially passed here (V-1, V-2, V-4, V-5) is carried forward with a specific, evidence-backed mitigation rather than omitted — an honest "Not Met" with a fix path is stronger evidence of engineering rigor than an unexamined all-green report.
+4. **A safety case is a living, traceable argument, not a scorecard.** Every constraint that failed or partially passed here (V-1, V-2 not met; V-4, V-5 partial) is carried forward with a specific, evidence-backed mitigation rather than omitted — an honest "Not Met" with a fix path is stronger evidence of engineering rigor than an unexamined all-green report.
 
 ---
 
