@@ -1,6 +1,6 @@
 # CARLA Autonomous Driving Perception System - ML Safety Case & Assurance Pipeline
 
-<span style="font-size:1.3em"><b>Author:</b> Abhishek Bangale</span>
+# Author: Abhishek Bangale
 
 **Course:** Introduction to Machine Learning Safety — Summer Semester 2026, Otto-von-Guericke University Magdeburg
 
