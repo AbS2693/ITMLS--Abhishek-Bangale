@@ -10,7 +10,7 @@
 
 ---
 
-## Summary
+## 📋 Summary
 
 This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4600-aligned Safety Case** for a three-model CARLA perception system: nine weekly exercises building up model training, calibration, adversarial testing, and out-of-distribution (OOD) monitoring, synthesized into a single final Safety Case report (`MLS_Final_Report_2026.pdf`).
 
@@ -18,7 +18,7 @@ This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 ITMLS--Abhishek-Bangale/
@@ -201,7 +201,7 @@ Every downstream evaluation in the Safety Case traces back to one of these scrip
 | `test/`, `test-fog/`, `test-night/`, `test-town-01/` | OOD detection — Mahalanobis / k-NN AUROC | `task1_extract_features.py` → `task2_evaluate_detectors.py` | 7.7 | `exercise_9_7_results.json`, `auroc_comparison.png` |
 | `test-fog/`, `test-night/` | Distribution-shift misclassification analysis | `evaluate_distribution_shift.py` | 6.6 | `distribution_shift_results.json`, annotated overlays |
 
-### 4. End-to-end reproduction
+### 4. 🔁 End-to-end reproduction
 
 Run in this order from the repository root; each step consumes the previous step's output.
 
@@ -306,7 +306,7 @@ Each of the five verifications (V-1–V-5) cites the exact exercise, script, and
 
 ---
 
-## Verification Summary
+## ✅ Verification Summary
 
 | ID | Checks | Threshold | Empirical Result | Verdict | Hazards |
 |----|--------|-----------|-------------------|---------|---------|
@@ -320,7 +320,7 @@ Each of the five verifications (V-1–V-5) cites the exact exercise, script, and
 
 ---
 
-## Key Engineering Learnings
+## 💡 Key Engineering Learnings
 
 1. **ML metrics ≠ safety metrics.** Recall, not accuracy, is the safety-relevant statistic for a missed-detection system — a model can look "good" on aggregate accuracy while still missing a third of pedestrians. Likewise, a cost-weighted decision threshold ($\tau^\ast\approx0.0099$) is the safety-relevant operating point, not the ML-conventional $\tau=0.5$.
 2. **Single-sensor, single-model systems have no defense in depth.** Every detector shares one RGB camera; an adversarial perturbation or a distribution shift (fog, night) degrades all three detectors simultaneously, because there is no independent modality to cross-check against.
