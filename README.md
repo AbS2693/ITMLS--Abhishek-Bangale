@@ -1,10 +1,10 @@
 # CARLA Autonomous Driving Perception System - ML Safety Case & Assurance Pipeline
 
-**Author:** Abhishek Bangale
+<span style="font-size:1.3em"><b>Author:</b> Abhishek Bangale</span>
 
 **Course:** Introduction to Machine Learning Safety — Summer Semester 2026, Otto-von-Guericke University Magdeburg
 
-**Student:** Abhishek Sudhir Bangale (Matriculation No. 250767)
+**Student:** Abhishek Bangale (Matriculation No. 250767)
 
 **System under analysis:** CARLA autonomous vehicle perception stack — single forward-facing RGB camera, three independent ResNet-18 binary classifiers (pedestrian / vehicle / traffic-light presence), rule-based planner, drive-by-wire actuators, human safety operator fallback.
 
