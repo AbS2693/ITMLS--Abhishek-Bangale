@@ -1,5 +1,27 @@
 """Downloads and verifies the CARLA dataset splits and model weights for this repo.
-Fill in DATASET_FILES with your own Google Drive file IDs before running.
+
+Setup:
+    1. Install the downloader:   pip install gdown
+    2. Run this script:          python scripts/download_data.py
+       (it downloads each zip below, extracts it into the repo root, then
+       deletes the zip; run it from anywhere, paths are resolved relative
+       to this file)
+
+Full dataset (all splits + model weights) as one Google Drive folder:
+    https://drive.google.com/drive/folders/14l4mbwnsbbGZ0MVNRJN7aeYj6RL5CBuI?usp=drive_link
+
+Alternative: fetch the whole folder directly with gdown instead of running
+this script:
+    gdown --folder https://drive.google.com/drive/folders/14l4mbwnsbbGZ0MVNRJN7aeYj6RL5CBuI?usp=drive_link -O .
+
+Individual file links (same files as above, listed separately):
+    train.zip         https://drive.google.com/file/d/1e9tSHg5W4CVDLEBgx1FpzR2j4Kl6jCqh/view?usp=drive_link
+    validation.zip     https://drive.google.com/file/d/1wKPOEDo0-899PiA9v5-cjjnIIHpsT60R/view?usp=drive_link
+    test.zip           https://drive.google.com/file/d/1u031oXW9sVkNY9eghr6SvmDEm9JznLya/view?usp=drive_link
+    test-fog.zip       https://drive.google.com/file/d/1ZQIPhZrBQS0O0wjPW38bXqr4Pc4hvwUj/view?usp=drive_link
+    test-night.zip     https://drive.google.com/file/d/1igjpOghXUIUyrEcAmv4lTkQnPY6-B0eb/view?usp=drive_link
+    test-town-01.zip   https://drive.google.com/file/d/1CTAOYOjHFc1qq987mYReW5sRVossICCr/view?usp=drive_link
+    Best Models.zip    https://drive.google.com/file/d/1KCmmG2kfeqzPFXN5gCk4PS6rJ5bWvB0T/view?usp=drive_link
 """
 import gdown
 import zipfile
@@ -7,8 +29,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
 
-# Google Drive file IDs -- placeholders, replace with your actual shared file IDs
-# Clean Google Drive file IDs extracted from your links
+# Google Drive file IDs (extracted from the links documented above)
 DATASET_FILES = {
     "train.zip":        "1e9tSHg5W4CVDLEBgx1FpzR2j4Kl6jCqh",
     "validation.zip":   "1wKPOEDo0-899PiA9v5-cjjnIIHpsT60R",
