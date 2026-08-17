@@ -1,4 +1,6 @@
-# CARLA Autonomous Driving Perception System — ML Safety Case & Assurance Pipeline
+# CARLA Autonomous Driving Perception System — 
+           "ML Safety Case & Assurance Pipeline"
+
 
 **Course:** Introduction to Machine Learning Safety — Summer Semester 2026, Otto-von-Guericke University Magdeburg
 **Student:** Abhishek Sudhir Bangale (Matriculation No. 250767)
@@ -6,7 +8,7 @@
 
 ---
 
-## Executive Summary
+## Summary
 
 This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4600-aligned Safety Case** for a three-model CARLA perception system: nine weekly exercises building up model training, calibration, adversarial testing, and out-of-distribution (OOD) monitoring, synthesized into a single final Safety Case report (`MLS_Final_Report_2026.pdf`).
 
@@ -47,7 +49,7 @@ ITMLS--Abhishek-Bangale/
 │   ├── Exercise 9.5/              Temperature scaling
 │   └── Exercise 9.6/              Asymmetric cost-optimal decision thresholding
 ├── MLS_Final_Report_2026.pdf   Final Safety Case report
-├── safety_case_template_Draft.tex    LaTeX source for the report
+├── scripts                     download_data.py
 └── README.md
 ```
 
@@ -326,4 +328,4 @@ Each of the five verifications (V-1–V-5) cites the exact exercise, script, and
 
 ## Citation & Course Information
 
-This repository was produced for the course *Introduction to Machine Learning Safety*, Chair of Software & Systems Engineering, Otto-von-Guericke University Magdeburg, Summer Semester 2026 (Lecturer: Konstantin Kirchheim). The report follows the course-provided Safety Case template and STPA methodology, applied to the CARLA driving simulator dataset supplied for the assignment. AI assistance (Claude) was used as a drafting and formatting aid throughout; all technical content, analysis, and verification results are grounded in this repository's own scripts and outputs. See the Statement of Authorship in `MLS_Final_Report_2026.pdf` for the full academic-integrity declaration.
+This repository was produced for the course - *Introduction to Machine Learning Safety*, Chair of Software & Systems Engineering, Otto-von-Guericke University Magdeburg, Summer Semester 2026 (Lecturer: Konstantin Kirchheim). The report follows the course-provided Safety Case template and STPA methodology, applied to the CARLA driving simulator dataset supplied for the assignment. Technical content, analysis, and verification results are grounded in this repository's own scripts and outputs. See the Statement of Authorship in `MLS_Final_Report_2026.pdf` for the full academic-integrity declaration.
