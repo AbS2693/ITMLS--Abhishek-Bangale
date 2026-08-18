@@ -10,187 +10,128 @@ Verify that Grad-CAM heatmaps correctly highlight the target objects in images
 METHODOLOGY:
 ============
 
-For each model and visualization, we verify:
-
-1. HEATMAP LOCALIZATION
-   - Does the red/hot region appear where the target object should be?
-   - Is the heatmap activating on relevant image regions?
-   - Does it avoid activating on background/irrelevant areas?
-
-2. SPATIAL ALIGNMENT
-   - Are pedestrians in the top/middle of frame -> heatmap shows top/middle?
-   - Are traffic lights typically centered -> heatmap shows center?
-   - Are vehicles large -> heatmap shows substantial activation?
-
-3. FEATURE DETECTION
-   - For pedestrian model: Should activate on human shapes, movement
-   - For traffic light model: Should activate on bright colored objects
-   - For vehicle model: Should activate on large rectangular/structured objects
-
-4. SPURIOUS FEATURES
-   - No excessive activation on road surface (common false positive)
-   - No excessive activation on sky/clouds
-   - Activation concentrated on relevant objects
+For each model and visualization, we directly compare the Grad-CAM heatmap's
+highest-activation (red) region against the actual location of the target
+object in the original image, rather than describing the heatmap in isolation.
 
 ANALYSIS BY MODEL:
 ==================
 
-▼ PEDESTRIAN MODEL
-──────────────────
-Expectations:
-  • Highest activation on human figures
-  • Secondary activation on cyclists (if present)
-  • Lower activation on road/sky
-  
-CARLA Dataset Context:
-  • Pedestrians appear at variable sizes (near/far)
-  • Often centered or slightly off-center
-  • Mix of standing, walking, crossing poses
-  
-Images Analyzed: pedestrian_gradcam_1, pedestrian_gradcam_2, pedestrian_gradcam_3
+PEDESTRIAN MODEL
+----------------
+Images analyzed: pedestrian_gradcam_1, pedestrian_gradcam_2, pedestrian_gradcam_3
 
 FINDING - Image 1 (pedestrian_gradcam_1):
-  ✓ Heatmap Status: Shows concentrated activation
-  ✓ Localization: Highlights appear in image center-to-upper regions
-  ✓ Interpretation: Model activating on potential pedestrian locations
-  ✓ Quality: Clear spatial structure in heatmap (not random noise)
-  
+  A pedestrian is present far down the road, roughly center-frame, small.
+  The hottest activation is a solid red band across the TOP of the image
+  (sky / tree-line), not on the pedestrian, which falls in a low-activation
+  (blue) region.
+  VERDICT: FAILED - the model is not attending to the pedestrian in this image.
+
 FINDING - Image 2 (pedestrian_gradcam_2):
-  ✓ Heatmap Status: Shows distributed activation pattern
-  ✓ Localization: Multiple activation hotspots detected
-  ✓ Interpretation: Model scanning multiple regions for pedestrians
-  ✓ Quality: Structured heatmap indicates learned features
-  
+  Two pedestrians are clearly visible on the left side of the frame.
+  The hottest, most concentrated red activation sits almost exactly on
+  these two pedestrians.
+  VERDICT: PASSED - correct localization.
+
 FINDING - Image 3 (pedestrian_gradcam_3):
-  ✓ Heatmap Status: Shows concentrated activation zones
-  ✓ Localization: Activation in expected pedestrian areas
-  ✓ Interpretation: Consistent detection pattern
-  ✓ Quality: Clear separation between high/low activation
+  A pedestrian (in yellow) is visible center-left of the frame. There is
+  moderate (yellow/green) activation near this region, but the single
+  hottest red spot is on the right edge of the frame (building/parked car
+  area), away from the pedestrian.
+  VERDICT: PARTIAL - some relevant activation near the pedestrian, but the
+  strongest response is on an unrelated region.
 
-VERDICT: ✓ PASSED - Pedestrian model heatmaps show reasonable localization
+Pedestrian model summary: 1 of 3 sampled images show clean, correct
+localization on the pedestrian; 1 shows a clear spurious-feature failure
+(sky); 1 is mixed. This is NOT a uniform "PASSED" result.
 
-──────────────────────────────────────────────────────────────────────────────
+TRAFFIC LIGHT MODEL
+--------------------
+Images analyzed: traffic_light_gradcam_1, traffic_light_gradcam_2, traffic_light_gradcam_3
 
-▼ TRAFFIC LIGHT MODEL
-─────────────────────
-Expectations:
-  • Highest activation on bright colored objects
-  • Strong activation in upper-middle portions of road scenes
-  • Minimal activation on road surface
-  
-CARLA Dataset Context:
-  • Traffic lights are small, bright, distinct objects
-  • Usually centered or slightly off-center
-  • Clear color (red/yellow/green)
-  
-Images Analyzed: traffic_light_gradcam_1, traffic_light_gradcam_2, traffic_light_gradcam_3
+FINDING - Images 1, 2, 3:
+  None of the three sampled images contain a visible traffic light at all
+  (they are the same underlying street scenes used for the pedestrian
+  samples above). In all three, the heatmap's highest activation is a
+  diffuse red/orange band across the sky, not on any traffic-light object,
+  because no such object is present to localize onto.
+  VERDICT: NOT VERIFIABLE from these samples - the sampled images do not
+  contain the target class, so this batch cannot demonstrate correct
+  localization. The sky-dominant activation pattern is consistent with the
+  same spurious-feature reliance seen in the pedestrian model.
 
-FINDING - Image 1 (traffic_light_gradcam_1):
-  ✓ Heatmap Status: Shows high-contrast activation
-  ✓ Localization: Concentrated hotspots detected
-  ✓ Interpretation: Model focusing on specific image regions
-  ✓ Quality: Sharp, well-defined heatmap structure
+TRAFFIC LIGHT MODEL SUMMARY: This sample selection does not support a
+"PASSED" verdict, because none of the three chosen images have a traffic
+light in them. A re-sample using images that genuinely contain a visible
+traffic light is needed before any localization claim can be made.
 
-FINDING - Image 2 (traffic_light_gradcam_2):
-  ✓ Heatmap Status: Shows directed activation pattern
-  ✓ Localization: Activation in upper/center frame regions
-  ✓ Interpretation: Model identifying traffic signal locations
-  ✓ Quality: Structured heatmap without excessive noise
-
-FINDING - Image 3 (traffic_light_gradcam_3):
-  ✓ Heatmap Status: Shows concentrated feature activation
-  ✓ Localization: Multiple activation zones in expected regions
-  ✓ Interpretation: Model using multiple features for detection
-  ✓ Quality: Clear differentiation between salient/non-salient areas
-
-VERDICT: ✓ PASSED - Traffic light model heatmaps show strong, focused localization
-
-──────────────────────────────────────────────────────────────────────────────
-
-▼ VEHICLE MODEL
-───────────────
-Expectations:
-  • Activation on large vehicle shapes/structure
-  • Emphasis on central/lower frame (road level)
-  • Activation on moving vehicle features
-  
-CARLA Dataset Context:
-  • Vehicles are large, structured objects
-  • Can appear at multiple frame positions
-  • High variability in size, angle, distance
-  
-Images Analyzed: vehicle_gradcam_1, vehicle_gradcam_2, vehicle_gradcam_3
+VEHICLE MODEL
+-------------
+Images analyzed: vehicle_gradcam_1, vehicle_gradcam_2, vehicle_gradcam_3
 
 FINDING - Image 1 (vehicle_gradcam_1):
-  ✓ Heatmap Status: Shows substantial activation zones
-  ✓ Localization: Activation in expected vehicle regions
-  ✓ Interpretation: Model detecting vehicle features
-  ✓ Quality: Spatially coherent heatmap structure
+  No vehicle is visible in this frame (only distant pedestrians on an empty
+  road). The heatmap nonetheless shows a strong, concentrated red hotspot
+  in the center of the frame, plus a red band along the top (sky).
+  VERDICT: FAILED / NOT VERIFIABLE - there is no vehicle for the model to
+  correctly localize onto in this image; the central hotspot does not
+  correspond to any vehicle.
 
 FINDING - Image 2 (vehicle_gradcam_2):
-  ✓ Heatmap Status: Shows distributed activation
-  ✓ Localization: Multiple regions of interest identified
-  ✓ Interpretation: Model examining various object regions
-  ✓ Quality: Well-structured feature maps
+  A small car is visible in the distance on the left side of the frame.
+  There is a moderate (yellow-green) activation in that same left region,
+  though it is not the single hottest point in the map.
+  VERDICT: PARTIAL - weak but plausible correspondence to the vehicle.
 
 FINDING - Image 3 (vehicle_gradcam_3):
-  ✓ Heatmap Status: Shows directed activation pattern
-  ✓ Localization: Concentration in expected vehicle locations
-  ✓ Interpretation: Consistent detection across images
-  ✓ Quality: Clear spatial patterns indicating feature learning
+  [Not re-examined in this pass; treat as unverified pending direct review
+  of vehicle_gradcam_3.png against the vehicle's actual position.]
 
-VERDICT: ✓ PASSED - Vehicle model heatmaps show appropriate localization
-
-──────────────────────────────────────────────────────────────────────────────
+VEHICLE MODEL SUMMARY: Mixed, with at least one clear failure (image 1, no
+vehicle present in frame) and one weak partial match (image 2).
 
 OVERALL ASSESSMENT:
 ===================
 
-POSITIVE INDICATORS:
-  ✓ All three models produce structured heatmaps (not random noise)
-  ✓ Heatmaps show spatial localization (concentrated regions, not uniform)
-  ✓ Activation patterns vary meaningfully across images
-  ✓ No evidence of model ignoring image content
-  ✓ CAM structure suggests learned feature hierarchy
+The heatmaps are structured (not random noise) and vary across images, which
+is consistent with the models having learned real, non-trivial features.
+However, checking the heatmaps directly against object locations shows the
+models - particularly the pedestrian and vehicle detectors - frequently
+attend to sky, tree-line, or background regions rather than the target
+object. This is consistent with, and helps explain, the poor pedestrian
+recall (0.483 on the in-distribution test set) already established in
+Exercise 3/4: the model's attention is not reliably anchored to the object
+it is supposed to be detecting.
 
-QUALITY CHECKS PASSED:
-  ✓ Heatmap Structure: Clear activation zones without excessive noise
-  ✓ Spatial Coherence: Activation areas are contiguous and meaningful
-  ✓ Feature Coverage: Different regions active in different images
-  ✓ No Saturation: Heatmaps use full value range effectively
-  ✓ Interpretability: Activation patterns align with expected object locations
-
-INTERPRETABILITY ASSESSMENT:
-  • Pedestrian Model: Good localization, reasonable focus areas
-  • Traffic Light Model: Excellent localization, highly focused activation
-  • Vehicle Model: Strong localization, appropriate spatial patterns
+The traffic-light sample cannot be assessed at all with the current image
+selection, since none of the three sampled images contain a traffic light.
 
 SAFETY IMPLICATIONS:
-  ✓ Models appear to use legitimate image features for classification
-  ✓ Heatmaps suggest no obvious reliance on spurious features
-  ✓ Spatial localization indicates proper object detection capability
-  ✓ Ready for further evaluation on distribution shift (test-fog, test-night)
+====================
+  - The pedestrian and vehicle models show real evidence of spurious
+    background/sky reliance in at least one of three sampled images each,
+    not just a hypothetical risk (compare Exercise 6.6 Task 1, which
+    reasons about exactly this failure mode).
+  - This is a genuine, image-verified finding, not an assumption: the
+    heatmap for pedestrian_gradcam_1 and vehicle_gradcam_1 both show a
+    prominent sky/top-of-frame activation band unrelated to any target
+    object.
+  - A "reliable" localization claim cannot be made from this sample; more
+    images per model, deliberately including confirmed target-object
+    presence, are needed for a defensible verification pass.
 
 RECOMMENDATIONS:
 ================
 
-1. For Pedestrian Model:
-   - Performance is acceptable but could be improved
-   - Monitor for false negatives (missed pedestrians)
-   - Consider sensitivity analysis in low-light conditions
-
-2. For Traffic Light Model:
-   - Excellent interpretability demonstrated
-   - High confidence in this model's decision-making
-   - Suitable for safety-critical applications
-
-3. For Vehicle Model:
-   - Good localization patterns observed
-   - Sufficient feature coverage for robust detection
-   - Monitor for occlusion scenarios (partially hidden vehicles)
-
-4. Next Steps:
-   - Task 4: Analyze failure cases (misclassified images)
-   - Exercise 6.6: Distribution shift evaluation (fog, night conditions)
-   - Consider adversarial robustness testing
-
+1. Re-select image samples for the traffic-light model so that at least
+   three actually contain a visible traffic light before drawing any
+   localization conclusion for that model.
+2. Investigate the sky/top-of-frame activation pattern seen for the
+   pedestrian and vehicle models - this may explain part of the recall gap
+   documented in Exercise 3/4 and should be treated as a residual risk, not
+   a passed check.
+3. Increase the sample size beyond three images per model before treating
+   any localization verdict as representative.
+4. Next Steps: Task 4 (failure-case analysis), Exercise 6.6 (distribution
+   shift evaluation).
