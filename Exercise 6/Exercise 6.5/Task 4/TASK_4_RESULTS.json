@@ -4,9 +4,10 @@
   "status": "COMPLETE",
   "analysis_scope": {
     "images_scanned": 30,
-    "dataset": "Training set (first 30 images)"
+    "dataset": "Training set (first 30 images) - SMALL, NON-REPRESENTATIVE SAMPLE, used only to select example images for Grad-CAM visualization",
+    "note": "These counts describe only this 30-image sample and must not be read as the model's overall false-positive/false-negative rate. The verified test-set confusion matrices (Exercise 3.6 / exercise_3_6_evaluation_report.json, 3,600 images) are: pedestrian FP=885 FN=365 (recall 0.483); traffic_light FP=146 FN=44 (recall 0.983); vehicle FP=65 FN=411 (recall 0.848)."
   },
-  "models_analyzed": {
+  "models_analyzed_in_this_30_image_sample": {
     "pedestrian": {
       "false_positives_found": 9,
       "false_negatives_found": 1,
@@ -27,9 +28,8 @@
     }
   },
   "findings": {
-    "all_models": "Show interpretable failure modes",
-    "errors_are_meaningful": true,
-    "grad_cam_effective": "Clearly shows error causes",
-    "ready_for_next_phase": true
+    "scope_caveat": "This 30-image sample is too small to characterize model behavior; it exists only to source example images for Grad-CAM visualization in this exercise.",
+    "grad_cam_effective": "Grad-CAM heatmaps on the sampled failure cases are visually interpretable",
+    "overall_model_readiness": "NOT assessed by this task - see Exercise 3.6/4.7 for the actual, statistically meaningful evaluation, which shows the pedestrian model failing its recall requirement (0.483 vs 0.90 threshold)"
   }
 }

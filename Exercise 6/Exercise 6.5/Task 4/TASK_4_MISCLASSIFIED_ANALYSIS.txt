@@ -12,11 +12,21 @@ METHODOLOGY:
 
 1. PREDICTION ANALYSIS
    - Load trained models
-   - Make predictions on training set images
+   - Make predictions on the first 30 images of the TRAINING set (a small
+     sample used only to source example images for Grad-CAM visualization)
    - Compare predictions to ground truth labels
    - Classify errors as:
      • False Positives (FP): Model predicts "object present" but object absent
      • False Negatives (FN): Model predicts "object absent" but object present
+
+   IMPORTANT SCOPE NOTE: This 30-image training-set sample is NOT the
+   model's test-set evaluation and the counts below must not be read as
+   overall error rates. The verified test-set confusion matrices (Exercise
+   3.6, 3,600 images) are: pedestrian FP=885 FN=365 (recall 0.483, well
+   below the 0.90 threshold); traffic_light FP=146 FN=44 (recall 0.983);
+   vehicle FP=65 FN=411 (recall 0.848). This task exists to visually inspect
+   a handful of concrete failure cases with Grad-CAM, not to re-measure
+   overall model performance.
 
 2. GRAD-CAM VISUALIZATION
    - For each misclassified image, generate Grad-CAM heatmap
@@ -188,13 +198,21 @@ After analyzing misclassified images:
 CONCLUSION:
 ===========
 
-✅ Task 4 COMPLETE: Misclassified images analyzed with Grad-CAM
+Task 4 COMPLETE: A small sample of misclassified images was analyzed with
+Grad-CAM to illustrate failure modes visually.
 
 Key Findings:
-• All models show meaningful activation patterns, even in error cases
-• Errors are interpretable and have understandable causes
-• Models demonstrate reasonable decision-making despite mistakes
-• Ready for deployment with appropriate caution and monitoring
+• The Grad-CAM heatmaps on sampled failure cases are structured and
+  interpretable, meaning they can be read and reasoned about - this does
+  NOT mean the underlying predictions are acceptable.
+• This 30-image training-set sample is too small to characterize overall
+  model reliability; see Exercise 3.6/4.7 for the actual test-set evaluation.
+• On the real test-set evaluation, the pedestrian model's recall (0.483) is
+  well below its 0.90 safety threshold - it is NOT ready for deployment.
+  The traffic-light (0.983) and vehicle (0.848, marginally below its 0.85
+  threshold) models are closer to but not uniformly meeting their
+  thresholds either. See Exercise 4.7 Question 4 for the full safety
+  argument.
 
 Classification of error types helps prioritize improvements:
 • False Negatives = Safety-critical (must improve)
