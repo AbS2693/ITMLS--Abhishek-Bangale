@@ -14,7 +14,7 @@
 
 This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4600-aligned Safety Case** for a three-model CARLA perception system: nine weekly exercises building up model training, calibration, adversarial testing, and out-of-distribution (OOD) monitoring, synthesized into a single final Safety Case report (`MLS_Final_Report_2026.pdf`).
 
-**Final deployment verdict: Deploy with Restrictions.** Of five safety constraints (SC-1–SC-5) verified against measured evidence, only calibration (V-3) is fully met; OOD detection (V-4) and the safe-fallback design (V-5) are partially met; in-distribution recall (V-1) and adversarial robustness (V-2) are **not met**. The report carries every unmet constraint forward as an honest, mitigated residual risk rather than hiding it — restrictions include daytime-only operation, a cost-optimal decision threshold, and mandatory auditory alerting.
+**Final deployment verdict: Deploy with Restrictions.** Of five verifications (V-1–V-5) run against a 12-constraint STPA safety case (SC-1–SC-12), only calibration (V-3) is fully met; OOD detection (V-4) and the safe-fallback design (V-5) are partially met; in-distribution recall (V-1) and adversarial robustness (V-2) are **not met**. Five of the twelve constraints (SC-4–SC-8, planner-logic and false-positive requirements) have no dedicated verification in this course's exercise sequence and are carried forward as unverified rather than assigned a fabricated verdict. The report carries every unmet or unverified constraint forward as an honest, documented residual risk rather than hiding it — restrictions include daytime-only operation, a cost-optimal decision threshold, and mandatory auditory alerting.
 
 ---
 
@@ -266,24 +266,24 @@ Each script writes its results (`.json`) and plots (`.png`) into its own exercis
 - **Objective:** Train the three detectors, quantify their real-world limits, and verify *why* they fail, not just *that* they fail.
 - **Key actions:** Fine-tuned three ResNet-18 binary classifiers (pedestrian / vehicle / traffic-light) on the CARLA training set. Ran k-projection ODD-coverage analysis on the test set.
 - **Critical findings:**
-  - Severe class imbalance for pedestrians — only 1,718 positive examples (23.9% of the training set) — driving overfitting (training loss ↓80.9%, validation loss ↑93.9%) and a pedestrian recall of **0.483**, well under the 0.90 safety threshold. Traffic-light recall (0.983) cleared its ≥0.85 threshold; vehicle recall (0.848) fell just short of its own ≥0.85 threshold.
+  - Severe class imbalance for pedestrians — only 1,718 positive examples (23.9% of the training set) — driving overfitting (training loss ↓86.7%, validation loss ↑56.1%) and a pedestrian recall of **0.483**, well under the 0.90 safety threshold. Traffic-light recall (0.983) cleared its ≥0.85 threshold; vehicle recall (0.848) fell just short of its own ≥0.85 threshold.
   - ODD test-set coverage collapses sharply with dimension count: **k=1: 55.56%**, **k=2: 25.93%**, **k=3: 11.11%** — meaning most higher-order weather/lighting/speed combinations were never sampled.
-  - Grad-CAM explainability (Exercise 6.5) confirmed all three detectors attend to the correct object regions rather than background shortcuts — the pedestrian recall gap is a data/capacity problem, not a spurious-correlation problem.
-- **Impact on STPA:** Grounds Causal Loss Scenario **LS-1** (low in-distribution recall) and Safety Constraint **SC-1**, verified — and **not met** — in **V-1**.
+  - Grad-CAM explainability (Exercise 6.5) gave a mixed result, not a uniform pass: some heatmaps correctly localize on the pedestrian, but others attend to background regions (sky, tree-line, building edges) instead of the target object — consistent with, and helping explain, the recall shortfall rather than ruling it out as a spurious-correlation problem.
+- **Impact on STPA:** Grounds Causal Loss Scenario **LS-1** (low in-distribution recall) and Safety Constraints **SC-1, SC-2, SC-3**, verified — and **not met** — in **V-1**.
 
 ### Phase 3 — Adversarial Vulnerability Assessment (Exercise 8)
 
 - **Objective:** Test whether small, human-imperceptible input perturbations break the detectors.
 - **Actions:** Implemented Fast Gradient Sign Method (FGSM) attacks at ε ∈ {0.01, 0.05, 0.1} against all three classifiers.
 - **Critical findings:** At ε=0.05, pedestrian recall collapsed by **83%** (0.52→0.09), traffic-light recall dropped **53%** (0.99→0.47), and vehicle recall dropped **35%** (0.83→0.54) — evaluated on a 100-image stratified subset of the in-distribution test set. Every detector fails SC-2's strict per-model <10% drop requirement, not just the pedestrian detector.
-- **Impact on STPA:** Motivated adding **Hazard H-5** (adversarially perturbed visual inputs) and **UCA-10** (planner acting on an adversarially-induced false negative), feeding Causal Loss Scenario **LS-2** and Safety Constraint **SC-2**, verified — and **not met** — in **V-2**.
+- **Impact on STPA:** Motivated adding **Hazard H-5** (adversarially perturbed visual inputs) and **UCA-10** (planner acting on an adversarially-induced false negative), feeding Causal Loss Scenario **LS-2** and Safety Constraint **SC-11** (added alongside its system-level pair, SC-12), verified — and **not met** — in **V-2**.
 
 ### Phase 4 — Out-of-Distribution & Anomaly Detection (Exercise 7)
 
 - **Objective:** Determine whether the system can detect when it has left its training distribution (fog, night, an unmapped town).
 - **Actions:** Evaluated Maximum Softmax Probability (MSP) as a baseline OOD detector, then compared it against feature-based detectors (Mahalanobis distance, k-NN) on identical ResNet-18 penultimate-layer (512-D) features.
 - **Critical findings:** MSP baseline AUROC was **0.812** on the unseen town, **0.737** on fog, and only **0.537** at night — barely better than chance, since softmax confidence stays high even on inputs the model was never trained on. The Mahalanobis-distance detector on the *same* features reached **0.949** overall (fog 0.997, night 1.000, town-01 0.849) — proving the shortfall is specific to MSP as a statistic, not a limit of the learned representation.
-- **Impact on STPA:** Strengthens **Hazard H-2** (undetected OOD operation) via **UCA-9**, grounds Causal Loss Scenario **LS-4** and Safety Constraint **SC-4**, verified as **Partial** in **V-4**.
+- **Impact on STPA:** Strengthens **Hazard H-2** (undetected OOD operation) via **UCA-9**, grounds Causal Loss Scenario **LS-4** and Safety Constraint **SC-9** (added alongside its system-level pair, SC-10), verified as **Partial** in **V-4**.
 
 ### Phase 5 — Calibration & Cost-Optimal Fallback (Exercise 9)
 
@@ -292,7 +292,7 @@ Each script writes its results (`.json`) and plots (`.png`) into its own exercis
 - **Critical findings:**
   - Raw ECE showed severe overconfidence, especially for pedestrian (**ECE = 0.1150**). Temperature scaling (optimal **T = 2.10** for pedestrian, 1.20 for traffic-light, 1.30 for vehicle) brought all three detectors under the 0.05 threshold (pedestrian 0.0331, traffic-light 0.0275, vehicle 0.0248).
   - With costs $C_{FN}=100$ (missed pedestrian) and $C_{FP}=1$ (false alarm), the cost-optimal threshold $\tau^\ast = C_{FN}/(C_{FN}+C_{FP}) \approx 0.0099$ — far below the standard $\tau=0.5$ — drove false negatives on the pedestrian detector from **365 to 0**, cutting total cost-weighted risk by **92.3%** (37,385 → 2,894), at the cost of false positives rising from 885 to 2,894.
-- **Impact on STPA:** Grounds Causal Loss Scenario **LS-3** (overconfident miscalibration, verified **Met** in **V-3**) and the system-level fallback design behind **SC-5**, verified as **Partial** in **V-5** — because the fallback's OOD trigger inherits V-4's night-time detection gap rather than closing it.
+- **Impact on STPA:** Grounds Causal Loss Scenario **LS-3** (overconfident false negatives bypassing fallback — avg. confidence on incorrect pedestrian predictions = 0.7387 — verified **Met** in **V-3**, via Safety Constraints **SC-1, SC-2**) and the system-level fallback design behind **SC-10** (added alongside its model-level pair, SC-9), verified as **Partial** in **V-5** — because the fallback's OOD trigger inherits V-4's night-time detection gap rather than closing it.
 
 ### Phase 6 — Final Safety Case Synthesis (Report Stage)
 
@@ -308,13 +308,15 @@ Each of the five verifications (V-1–V-5) cites the exact exercise, script, and
 
 ## ✅ Verification Summary
 
-| ID | Checks | Threshold | Empirical Result | Verdict | Hazards |
-|----|--------|-----------|-------------------|---------|---------|
-| **V-1** | In-distribution recall | Pedestrian ≥0.90, Vehicle/TL ≥0.85 | Pedestrian 0.483, TL 0.983, Vehicle 0.848 | ✗ **Not met** | H-1, H-2, H-3 |
-| **V-2** | Adversarial robustness (FGSM ε=0.05) | Recall drop <10% per model | Pedestrian 83%, TL 53%, Vehicle 35% | ✗ **Not met** | H-1, H-2 |
-| **V-3** | Calibrated uncertainty (ECE) | ECE <0.05 after scaling | Pedestrian 0.0331, TL 0.0275, Vehicle 0.0248 | ✓ **Met** | H-1, H-2, H-4 |
-| **V-4** | OOD detection (AUROC) | AUROC ≥0.90 | MSP (traffic-light model only): Town-01 0.812, Fog 0.737, Night 0.537 | ≈ **Partial** | H-1, H-2, H-3, H-5 |
-| **V-5** | Safe system fallback | Deceleration + operator alert on OOD/low-confidence | FN 365→0 via τ*≈0.0099; inherits V-4's night-time gap | ≈ **Partial** | All hazards |
+| ID | Verifies SC(s) | Checks | Threshold | Empirical Result | Verdict | Hazards |
+|----|----------------|--------|-----------|-------------------|---------|---------|
+| **V-1** | SC-1, SC-2, SC-3 | In-distribution recall | Pedestrian ≥0.90, Vehicle/TL ≥0.85 | Pedestrian 0.483, TL 0.983, Vehicle 0.848 | ✗ **Not met** | H-1, H-2, H-3 |
+| **V-2** | SC-11 | Adversarial robustness (FGSM ε=0.05) | Recall drop <10% per model | Pedestrian 83%, TL 53%, Vehicle 35% | ✗ **Not met** | H-1, H-2 |
+| **V-3** | SC-1, SC-2 (via LS-3) | Calibrated uncertainty (ECE) | ECE <0.05 after scaling | Pedestrian 0.0331, TL 0.0275, Vehicle 0.0248 | ✓ **Met** | H-1, H-2, H-4 |
+| **V-4** | SC-9 | OOD detection (AUROC) | AUROC ≥0.90 | MSP (traffic-light model only): Town-01 0.812, Fog 0.737, Night 0.537 | ≈ **Partial** | H-1, H-2, H-3, H-5 |
+| **V-5** | SC-10, SC-12 | Safe system fallback | Deceleration + operator alert on OOD/low-confidence | FN 365→0 via τ*≈0.0099; inherits V-4's night-time gap | ≈ **Partial** | All hazards |
+
+V-1 through V-5 provide evidence for 7 of the 12 safety constraints. SC-4–SC-8 (planner-logic and false-positive-rate constraints) have no dedicated verification exercise in this course's sequence and remain unverified.
 
 **Deployment recommendation: Deploy with Restrictions** — daytime operation only, cost-optimal pedestrian threshold ($\tau^\ast\approx0.0099$) mandatory, closed/controlled test routes only, auditory alert added before public trials, operator shift length capped below 4 hours. Restrictions lift once V-1 (pedestrian recall ≥0.90), V-2 (FGSM drop <10%), and V-4 (AUROC ≥0.90, especially at night) are met in a future revision.
 
