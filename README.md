@@ -12,7 +12,7 @@
 
 ## 📋 Summary
 
-This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4600-aligned Safety Case** for a three-model CARLA perception system: nine weekly exercises building up model training, calibration, adversarial testing, and out-of-distribution (OOD) monitoring, synthesized into a single final Safety Case report (`MLS_Final_Report_2026.pdf`).
+This repository contains the full engineering trail behind a **STPA + SOTIF/UL 4600-aligned Safety Case** for a three-model CARLA perception system: nine weekly exercises building up model training, calibration, adversarial testing, and out-of-distribution (OOD) monitoring, synthesized into a single final Safety Case report (`MLS_Final_Report.pdf`).
 
 **Final deployment verdict: Deploy with Restrictions.** Of five verifications (V-1–V-5) run against a 12-constraint STPA safety case (SC-1–SC-12), only calibration (V-3) is fully met; OOD detection (V-4) and the safe-fallback design (V-5) are partially met; in-distribution recall (V-1) and adversarial robustness (V-2) are **not met**. Five of the twelve constraints (SC-4–SC-8, planner-logic and false-positive requirements) have no dedicated verification in this course's exercise sequence and are carried forward as unverified rather than assigned a fabricated verdict. The report carries every unmet or unverified constraint forward as an honest, documented residual risk rather than hiding it — restrictions include daytime-only operation, a cost-optimal decision threshold, and mandatory auditory alerting.
 
@@ -50,7 +50,7 @@ ITMLS--Abhishek-Bangale/
 │   ├── Exercise 9.4/              Raw ECE, reliability diagrams
 │   ├── Exercise 9.5/              Temperature scaling
 │   └── Exercise 9.6/              Asymmetric cost-optimal decision thresholding
-├── MLS_Final_Report_2026.pdf      Final Safety Case report
+├── MLS_Final_Report.pdf      Final Safety Case report
 ├── scripts                        download_data.py
 └── README.md
 ```
@@ -247,7 +247,7 @@ python Cost_Optimal_Decisions.py
 cd ../../..
 ```
 
-Each script writes its results (`.json`) and plots (`.png`) into its own exercise directory — these are exactly the artifacts cited by number in the Verification Summary table below and in `MLS_Final_Report_2026.pdf`.
+Each script writes its results (`.json`) and plots (`.png`) into its own exercise directory — these are exactly the artifacts cited by number in the Verification Summary table below and in `MLS_Final_Report.pdf`.
 
 ---
 
@@ -333,4 +333,4 @@ V-1 through V-5 provide evidence for 7 of the 12 safety constraints. SC-4–SC-8
 
 ## Citation & Course Information
 
-This repository was produced for the course - *Introduction to Machine Learning Safety*, Chair of Software & Systems Engineering, Otto-von-Guericke University Magdeburg, Summer Semester 2026 (Lecturer: Konstantin Kirchheim). The report follows the course-provided Safety Case template and STPA methodology, applied to the CARLA driving simulator dataset supplied for the assignment. Technical content, analysis, and verification results are grounded in this repository's own scripts and outputs. See the Statement of Authorship in `MLS_Final_Report_2026.pdf` for the full academic-integrity declaration.
+This repository was produced for the course - *Introduction to Machine Learning Safety*, Chair of Software & Systems Engineering, Otto-von-Guericke University Magdeburg, Summer Semester 2026 (Lecturer: Konstantin Kirchheim). The report follows the course-provided Safety Case template and STPA methodology, applied to the CARLA driving simulator dataset supplied for the assignment. Technical content, analysis, and verification results are grounded in this repository's own scripts and outputs. See the Statement of Authorship in `MLS_Final_Report.pdf` for the full academic-integrity declaration.
